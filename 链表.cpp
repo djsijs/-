@@ -7,7 +7,8 @@ typedef struct LNode {
 } ListNode, *LinkList;
 
 //创建链表
-void createLinkList(LinkList &L) {
+int createLinkList(LinkList &L) {
+	int k = 0;
 	//生成无数据头节点
 	L = (LinkList)malloc(sizeof(ListNode));
 	L->next = NULL;
@@ -21,8 +22,9 @@ void createLinkList(LinkList &L) {
 		s->next = L->next;
 		L->next = s;
 		cin >> a;
+		k++;
 	}
-
+	return k;
 }
 
 //显示链表
@@ -87,12 +89,118 @@ int LinkListInsert(LinkList &L) {
 	return 0;
 }
 
+//删除重复元素
+void delRepeat(LinkList &L, int m) {
+	LinkList p = L, q;
+	int a[m + 1] = {0};
+	while (p->next) {
+		int i = p->next->data;
+		if (a[i] == 0) {
+			a[i] = 1;
+			p = p->next;
+		} else {
+			q = p->next;
+			p->next = q->next;
+			free(q);
+		}
+	}
+}
+
+// 链表逆置
+void reverseList(LinkList &L) {
+	LinkList prev = nullptr;
+	LinkList curr = L->next;
+	while (curr != nullptr) {
+		LinkList nextTemp = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = nextTemp;
+	}
+	L ->next = prev;
+}
+
+//转换为循环链表
+void ConvertToCircularList(LinkList &L) {
+	if (L == nullptr || L->next == nullptr) {
+		return;
+	}
+	L = L->next;
+	LinkList p = L;
+	while (p->next != nullptr) {
+		p = p->next;
+	}
+	p->next = L;
+
+}
+
+// 输出循环链表
+void PrintCircularList(LinkList L) {
+	if (L == nullptr) {
+		return;
+	}
+
+	LinkList p = L;
+	do {
+		cout << p->data << " ";
+		p = p->next;
+	} while (p != L);
+	cout << endl;
+}
+
+// 删除当前指向的节点
+void deleteCurrentNode(LinkList L) {
+	if (L == nullptr || L->next == nullptr) {
+		return;
+	}
+
+	LinkList nextNode = L->next;
+	L->data = nextNode->data;
+	L->next = nextNode->next;
+
+	delete nextNode;
+}
+
+//约瑟夫
+void josephusCircle(LinkList L, int m) {
+	if (L == nullptr || L->next == nullptr || m <= 0) {
+		return;
+	}
+
+	LinkList p = L;
+	if (m == 1) {
+		while (p->next != p) {
+			//删除当前指向的节点
+			deleteCurrentNode(p);
+			//输出循环链表
+			PrintCircularList(p);
+		}
+		return;
+	}
+	while (p->next != p) {
+		for (int i = 1; i < m - 1; i++) {
+			p = p->next;
+		}
+
+		LinkList deletedNode = p->next;
+		p->next = deletedNode->next;
+		delete deletedNode;
+
+		p = p->next;
+		PrintCircularList(p);
+	}
+
+	delete p;
+}
+
 int main() {
 	LinkList L;
-	createLinkList(L);
+	int k = createLinkList(L);
 	DisplayLinkList(L);
-	LinkListInsert(L);
-	DisplayLinkList(L);
+	ConvertToCircularList(L);
+	PrintCircularList(L);
+	josephusCircle(L, 1);
+//	LinkListInsert(L);
+//	DisplayLinkList(L);
 //	int a;
 //	while (~scanf("%d", &a)) {
 //		int p = LocateElem(L, a);

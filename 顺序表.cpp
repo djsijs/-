@@ -84,12 +84,12 @@ bool ListEmpty(SeqList L) {
 }
 
 //大到小
-bool cmp(Elemtype &a, Elemtype &b) {
+bool cmp1(Elemtype &a, Elemtype &b) {
 	return a > b;
 }
 
 //小到大
-bool cmp1(Elemtype &a, Elemtype &b) {
+bool cmp(Elemtype &a, Elemtype &b) {
 	return a < b;
 }
 
@@ -118,8 +118,8 @@ SeqList ordination(SeqList &L) {
 			i++;
 		}
 	}
-	sort(L1.data, L1.data + L1.length, cmp1);
-	sort(L2.data, L2.data + L2.length, cmp1);
+	sort(L1.data, L1.data + L1.length, cmp);
+	sort(L2.data, L2.data + L2.length, cmp);
 	for (int k = 0; k < i; k++) {
 		L1.data[L1.length + k] = a1;
 		L1.length++;
@@ -130,9 +130,9 @@ SeqList ordination(SeqList &L) {
 }
 
 int main() {
-	SeqList L;
+	SeqList A, B, C;
 
-	if (InitList(L)) {
+	if (InitList(C)) {
 		printf("顺序表初始化成功！\n");
 
 		//插入数据
@@ -140,23 +140,26 @@ int main() {
 //			ListInsert(L, i, i * i);
 //		}
 
-		ListInsert(L, 1, 3);
-		ListInsert(L, 1, 2);
-		ListInsert(L, 2, 2);
-		ListInsert(L, 3, 6);
-		ListInsert(L, 3, 8);
-		ListInsert(L, 3, 12);
-		ListInsert(L, 3, 10);
-		ListInsert(L, 2, 2);
-		ListInsert(L, 3, 6);
-		ListInsert(L, 2, 2);
-		ListInsert(L, 1, 5);
+		ListInsert(C, 1, 3);
+		ListInsert(C, 1, 2);
+		ListInsert(C, 2, 2);
+		ListInsert(C, 3, 6);
+		ListInsert(C, 3, 8);
+		ListInsert(C, 1, 12);
+		ListInsert(C, 3, 10);
+		ListInsert(C, 2, 2);
+		ListInsert(C, 3, 6);
+		ListInsert(C, 2, 2);
+		ListInsert(C, 1, 5);
 
 		//显示数据
-		DisplayList(L);
+		DisplayList(C);
 		printf("\n");
-		SeqList L1 = ordination(L);
-		DisplayList(L1);
+//		MergeSeqList(C, B);
+//		MergeSeqList(C, A);
+		sort(C.data, C.data + C.length, cmp);
+//		SeqList L1 = ordination(L);
+		DisplayList(C);
 //		printf("\n请输入要删除的元素：\n");
 //		int x;
 //		cin >> x;
