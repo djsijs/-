@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <stack>
 #define MAXSIZE 1000
 using namespace std;
 
@@ -68,12 +70,67 @@ void Conversion(SeqStack &s, int n) {
 	}
 }
 
+//判断是否是运算符
+int Comop(char s) {
+	switch (s) {
+		case '+':
+		case '^':
+		case '-':
+		case '*':
+		case '/':
+		case '%':
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+//运算
+int Operation(int a, int b, char s) {
+	switch (s) {
+		case '+':
+			return a + b;
+		case '^':
+			return a ^ b;
+		case '-':
+			return a - b;
+		case '*':
+			return a * b;
+		case '/':
+			return a / b;
+		case '%':
+			return a % b;
+	}
+	return 0;
+}
+
+//后缀表达式运算
+void Result(string str, SeqStack &s) {
+	string k = "";
+	for (int i = 0; i < str.length(); i++) {
+		if (isdigit(str[i])) {
+			k += str[i];
+		} else if (str[i] == ' ') {
+			if (k != "") {
+				s.data[++s.top] = atoi(k.c_str());;
+			}
+			k = "";
+		} else if (Comop(str[i])) {
+			int b = s.data[s.top--];
+			int a = s.data[s.top--];
+			s.data[++s.top] = Operation(a, b, str[i]);
+		}
+	}
+	cout << s.data[s.top--];
+}
+
 int main() {
 	SeqStack s;
+	string str;
 	InitStack(s);
-	Conversion(s, 13);
+	Conversion(s, 12);
 	DisplayStack1(s);
-	PopandDisplay(s);
-	DisplayStack1(s);
+//	getline(cin, str);
+//	Result(str, s);
 	return 0;
 }
