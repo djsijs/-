@@ -82,15 +82,15 @@ void Algorithm(SeqQueue &q, int a) {
 	}
 }
 
-int main() {
-	SeqQueue q;
-	InitQueue(q);
-	int a;
-	cin >> a;
-	do {
-		Algorithm(q, a);
-		DisplayQueue(q);
-		cin >> a;
-	} while (a != 0);
-	return 0;
-}
+//int main() {
+//	SeqQueue q;
+//	InitQueue(q);
+//	int a;
+//	cin >> a;
+//	do {
+//		Algorithm(q, a);
+//		DisplayQueue(q);
+//		cin >> a;
+//	} while (a != 0);
+//	return 0;
+//}
